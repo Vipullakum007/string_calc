@@ -38,4 +38,10 @@ public class StringCalculatorTest {
         assertEquals(12,stringCalculator.add("2\n4\n6"));
         assertEquals(60, stringCalculator.add("10\n20,30"));
     }
+
+    @Test
+    public void support_any_given_delimiter(){
+        assertEquals(3,stringCalculator.add("//;\n1;2"));
+        assertEquals(6,stringCalculator.add("//;\n1;2;3"));
+    }
 }
