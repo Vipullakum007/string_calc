@@ -44,4 +44,10 @@ public class StringCalculatorTest {
         assertEquals(3,stringCalculator.add("//;\n1;2"));
         assertEquals(6,stringCalculator.add("//;\n1;2;3"));
     }
+
+    @Test
+    public void given_diff_delimiter_should_work_if_its_escape_char(){
+        assertEquals(3,stringCalculator.add("//\n\n1\n2"));
+        assertEquals(6,stringCalculator.add("//\t\n1\t2\t3"));
+    }
 }
