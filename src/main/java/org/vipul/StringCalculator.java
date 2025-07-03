@@ -12,6 +12,7 @@ public class StringCalculator {
         if (numbers.length == 1) {
             return parseInt(numbers[0]);
         }
-        return 0;
+        int sum = parseInt(numbers[0]) + parseInt(numbers[1]);
+        return sum;
     }
 }

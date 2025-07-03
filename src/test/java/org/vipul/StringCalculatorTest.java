@@ -21,6 +21,6 @@ public class StringCalculatorTest {
     @Test
     public void two_numbers_string_should_return_sum_of_two_numbers(){
         assertEquals(7,stringCalculator.add("3,4"));
-        assertEquals(50,stringCalculator.add("10,30"));
+        assertEquals(50,stringCalculator.add("10,40"));
     }
 }
