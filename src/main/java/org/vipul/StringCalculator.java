@@ -8,25 +8,25 @@ public class StringCalculator {
         if(input.isEmpty()){
             return 0;
         }
+
         int sum = 0;
+        String delimiter = "[,\\n]";
+        String[] numbers;
         if(input.startsWith("//")){
             int del_start_index = input.indexOf("//");
             int del_end_index = input.indexOf("\n");
 
-            String delimiter = input.substring(del_start_index+2, del_end_index);
+            delimiter = input.substring(del_start_index+2, del_end_index);
 
-            String org_string = input.substring(del_end_index+1, input.length());
+            String org_string = input.substring(del_end_index+1);
 
-            String[] numbers = org_string.split(delimiter);
-            for(String number : numbers) {
-                sum += parseInt(number);
-            }
+            numbers = org_string.split(delimiter);
         }
         else {
-            String[] numbers = input.split("[,\\n]");
-            for (String number : numbers) {
-                sum += parseInt(number);
-            }
+            numbers = input.split(delimiter);
+        }
+        for(String number : numbers) {
+            sum += parseInt(number);
         }
         return sum;
     }
