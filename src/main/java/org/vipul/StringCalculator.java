@@ -14,6 +14,8 @@ public class StringCalculator {
         int sum = 0;
         String delimiter = "[,\\n]";
         String[] numbers;
+        StringBuilder negatives = new StringBuilder();
+
         if(input.startsWith("//")) {
             int del_start_index = input.indexOf("//");
             int del_end_index = input.indexOf("\n");
@@ -30,10 +32,17 @@ public class StringCalculator {
         numbers = input.split(delimiter);
         for(String number : numbers) {
             int intnum = parseInt(number);
+
             if(intnum < 0){
-                throw new IllegalArgumentException("Negative numbers not allowed: " + intnum);
+                if(!negatives.isEmpty()){
+                    negatives.append(",");
+                }
+                negatives.append(intnum);
             }
             sum += parseInt(number);
+        }
+        if (!negatives.isEmpty()) {
+            throw new IllegalArgumentException("Negatives not allowed: " + negatives);
         }
         return sum;
     }
