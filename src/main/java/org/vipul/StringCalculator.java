@@ -6,7 +6,10 @@ import java.util.Arrays;
 import static java.lang.Integer.parseInt;
 
 public class StringCalculator {
+    private int callCount = 0;
+
     public int add(String input) {
+        callCount++;
         if(input.isEmpty()){
             return 0;
         }
@@ -46,4 +49,9 @@ public class StringCalculator {
         }
         return sum;
     }
+
+    public int getCalledCount() {
+        return callCount;
+    }
+
 }
