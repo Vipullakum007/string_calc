@@ -61,9 +61,10 @@ public class StringCalculator {
                     List<String> delimiters = new ArrayList<>();
 
                     // Extract all delimiters between []
-                    for(int i=1;i<delimiterSection.length();i+=3){
-                        String delim = String.valueOf(delimiterSection.charAt(i));
-                        delimiters.add(Pattern.quote(delim));
+                    String[] parts = delimiterSection.split("\\]\\[");
+                    for (String part : parts) {
+                        String delimiter = part.replaceAll("[\\[\\]]", "");
+                        delimiters.add(Pattern.quote(delimiter));
                     }
 
                     // Join delimiters with | for regex OR
