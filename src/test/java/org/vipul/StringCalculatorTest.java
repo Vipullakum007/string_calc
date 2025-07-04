@@ -96,4 +96,9 @@ public class StringCalculatorTest {
         assertEquals(6, stringCalculator.add("//[*][%]\n1*2%3"));
         assertEquals(10, stringCalculator.add("//[;][-]\n1;2-3;4"));
     }
+
+    @Test
+    public void multiple_long_delimiters_can_be_used() {
+        assertEquals(6, stringCalculator.add("//[**][%%]\n1**2%%3"));
+    }
 }
