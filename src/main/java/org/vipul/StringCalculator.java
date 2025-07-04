@@ -6,7 +6,35 @@ import java.util.Arrays;
 import static java.lang.Integer.parseInt;
 
 public class StringCalculator {
+
     private int callCount = 0;
+    public String DELIMITER = "[,\\n]"; // Default delimiters : "," and "\n"
+    public final String[] ESC_CHARS = new String[]{"\t" , "\r" , "\f" , "\b" , "\\" , "\"" };
+    public final int MAX_ALLOWED_NUMBER = 1000;
+
+    private int calculateSum(String[] numbers) {
+        int temp_sum = 0;
+        StringBuilder negatives = new StringBuilder();
+
+        for (String number : numbers) {
+            int intnum = parseInt(number);
+            if (intnum < 0) {
+                if (!negatives.isEmpty()) {
+                    negatives.append(",");
+                }
+                negatives.append(intnum);
+            }
+            if(intnum <= MAX_ALLOWED_NUMBER){
+                temp_sum += intnum;
+            }
+        }
+
+        if (!negatives.isEmpty()) {
+            throw new IllegalArgumentException("Negatives not allowed: " + negatives);
+        }
+
+        return temp_sum;
+    }
 
     public int add(String input) {
         callCount++;
@@ -14,42 +42,23 @@ public class StringCalculator {
             return 0;
         }
 
-        int sum = 0;
-        String delimiter = "[,\\n]";
         String[] numbers;
-        StringBuilder negatives = new StringBuilder();
 
         if(input.startsWith("//")) {
             int del_start_index = input.indexOf("//");
             int del_end_index = input.indexOf("\n");
 
-            delimiter = input.substring(del_start_index + 2, del_end_index);
+            DELIMITER = input.substring(del_start_index + 2, del_end_index);
 
             input = input.substring(del_end_index + 1);
 
-            String[] escapeCharacters = new String[]{ "\t", "\r", "\f", "\b", "\\", "\""};
-            if (Arrays.asList(escapeCharacters).contains(delimiter)) {
-                delimiter = "\\" + delimiter;
+            if(Arrays.asList(ESC_CHARS).contains(DELIMITER)){
+                DELIMITER = "\\" + DELIMITER;
             }
         }
-        numbers = input.split(delimiter);
-        for(String number : numbers) {
-            int intnum = parseInt(number);
+        numbers = input.split(DELIMITER);
 
-            if(intnum < 0){
-                if(!negatives.isEmpty()){
-                    negatives.append(",");
-                }
-                negatives.append(intnum);
-            }
-            if(intnum <= 1000){
-                sum += parseInt(number);
-            }
-        }
-        if (!negatives.isEmpty()) {
-            throw new IllegalArgumentException("Negatives not allowed: " + negatives);
-        }
-        return sum;
+        return calculateSum(numbers);
     }
 
     public int getCalledCount() {
