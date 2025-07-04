@@ -1,6 +1,8 @@
 package org.vipul;
 
 
+import java.util.Arrays;
+
 import static java.lang.Integer.parseInt;
 
 public class StringCalculator {
@@ -12,19 +14,20 @@ public class StringCalculator {
         int sum = 0;
         String delimiter = "[,\\n]";
         String[] numbers;
-        if(input.startsWith("//")){
+        if(input.startsWith("//")) {
             int del_start_index = input.indexOf("//");
             int del_end_index = input.indexOf("\n");
 
-            delimiter = input.substring(del_start_index+2, del_end_index);
+            delimiter = input.substring(del_start_index + 2, del_end_index);
 
-            String org_string = input.substring(del_end_index+1);
+            input = input.substring(del_end_index + 1);
 
-            numbers = org_string.split(delimiter);
+            String[] escapeCharacters = new String[]{ "\t", "\r", "\f", "\b", "\\", "\""};
+            if (Arrays.asList(escapeCharacters).contains(delimiter)) {
+                delimiter = "\\" + delimiter;
+            }
         }
-        else {
-            numbers = input.split(delimiter);
-        }
+        numbers = input.split(delimiter);
         for(String number : numbers) {
             sum += parseInt(number);
         }
