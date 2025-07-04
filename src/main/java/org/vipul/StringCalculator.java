@@ -1,9 +1,10 @@
 package org.vipul;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
-
 import static java.lang.Integer.parseInt;
 
 public class StringCalculator {
@@ -54,8 +55,23 @@ public class StringCalculator {
             // Handle delimiters of any length between []
             if (delimiterSection.startsWith("[") && delimiterSection.endsWith("]")) {
                 DELIMITER = delimiterSection.substring(1, delimiterSection.length() - 1);
-                // Escape special regex characters
-                DELIMITER = Pattern.quote(DELIMITER);
+
+                if(delimiterSection.contains("][")){
+                    //multiple delimiters
+                    List<String> delimiters = new ArrayList<>();
+
+                    // Extract all delimiters between []
+                    for(int i=1;i<delimiterSection.length();i+=3){
+                        String delim = String.valueOf(delimiterSection.charAt(i));
+                        delimiters.add(Pattern.quote(delim));
+                    }
+
+                    // Join delimiters with | for regex OR
+                    DELIMITER = String.join("|", delimiters);
+                }else{
+                    DELIMITER = Pattern.quote(DELIMITER);
+                }
+
             } else {
                 DELIMITER = delimiterSection;
                 if(Arrays.asList(ESC_CHARS).contains(DELIMITER)){
