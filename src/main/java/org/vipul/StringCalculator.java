@@ -42,7 +42,9 @@ public class StringCalculator {
                 }
                 negatives.append(intnum);
             }
-            sum += parseInt(number);
+            if(intnum <= 1000){
+                sum += parseInt(number);
+            }
         }
         if (!negatives.isEmpty()) {
             throw new IllegalArgumentException("Negatives not allowed: " + negatives);
