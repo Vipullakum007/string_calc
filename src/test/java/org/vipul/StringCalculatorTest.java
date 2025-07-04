@@ -79,4 +79,9 @@ public class StringCalculatorTest {
         assertEquals(3, stringCalculator.getCalledCount());
     }
 
+    @Test
+    public void numbers_greater_than_1000_should_ignored(){
+        assertEquals(2,stringCalculator.add("1001,2"));
+        assertEquals(6,stringCalculator.add("1001,1,2,3"));
+    }
 }
