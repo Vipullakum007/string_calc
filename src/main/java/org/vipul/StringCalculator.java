@@ -29,6 +29,10 @@ public class StringCalculator {
         }
         numbers = input.split(delimiter);
         for(String number : numbers) {
+            int intnum = parseInt(number);
+            if(intnum < 0){
+                throw new IllegalArgumentException("Negative numbers not allowed: " + intnum);
+            }
             sum += parseInt(number);
         }
         return sum;
