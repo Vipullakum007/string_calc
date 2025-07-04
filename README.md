@@ -13,9 +13,12 @@ Supported features include:
 * Returns 0 for an empty string.
 * Handles a single number string.
 * Computes the sum of comma-separated or newline-separated numbers.
-* Supports any amount of numbers.
-* Accepts custom delimiters specified using `//[delimiter]\n`.
+* Supports any number of numeric values.
+* Accepts custom single-character delimiters specified using `//<delimiter>\n`.
 * Supports special characters (like `\t`, `\\`, etc.) as custom delimiters.
+* Accepts custom delimiters of any length using the `//[delimiter]` syntax.
+* Supports multiple delimiters using `//[delim1][delim2]...`.
+* Supports multiple long delimiters like `//[***][%%]`.
 * Throws an exception for negative numbers.
 * Lists all negative numbers in the exception message.
 * Ignores numbers greater than 1000.
@@ -104,10 +107,10 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `any_amount_numbers_string_should_return_sum_of_all_those_numbers`
 * **Inputs**:
 
-    * `"2,4"` → `6`
-    * `"2,4,6"` → `12`
-    * `"1,2,3,4"` → `10`
-    * `"1,2,3,4,5,6,7,8,9,10"` → `55`
+  * `"2,4"` → `6`
+  * `"2,4,6"` → `12`
+  * `"1,2,3,4"` → `10`
+  * `"1,2,3,4,5,6,7,8,9,10"` → `55`
 
 ---
 
@@ -116,9 +119,9 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `newline_as_delimiter_also_work`
 * **Inputs**:
 
-    * `"2\n3"` → `5`
-    * `"2\n4\n6"` → `12`
-    * `"10\n20,30"` → `60`
+  * `"2\n3"` → `5`
+  * `"2\n4\n6"` → `12`
+  * `"10\n20,30"` → `60`
 
 ---
 
@@ -127,8 +130,8 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `support_any_given_delimiter`
 * **Inputs**:
 
-    * `"//;\n1;2"` → `3`
-    * `"//;\n1;2;3"` → `6`
+  * `"//;\n1;2"` → `3`
+  * `"//;\n1;2;3"` → `6`
 
 ---
 
@@ -137,8 +140,8 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `given_diff_delimiter_should_work_if_its_escape_char`
 * **Inputs**:
 
-    * `"//\\\n1\\2"` → `3`
-    * `"//\t\n1\t2\t3"` → `6`
+  * `"//\\\n1\\2"` → `3`
+  * `"//\t\n1\t2\t3"` → `6`
 
 ---
 
@@ -147,8 +150,8 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `negative_number_should_throw_exception`
 * **Inputs**:
 
-    * `"3,4,-8"` → Exception with message: `"Negatives not allowed: -8"`
-    * `"-8"` → Exception with message: `"Negatives not allowed: -8"`
+  * `"3,4,-8"` → Exception with message: `"Negatives not allowed: -8"`
+  * `"-8"` → Exception with message: `"Negatives not allowed: -8"`
 
 ---
 
@@ -157,8 +160,8 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `more_than_one_negative_numbers_should_return_all_those_numbers_with_exception`
 * **Inputs**:
 
-    * `"-8,2,3,-1"` → Exception with message: `"Negatives not allowed: -8,-1"`
-    * `"1,-2,3,-4,-5,-6,7,8,-9"` → Exception with message: `"Negatives not allowed: -2,-4,-5,-6,-9"`
+  * `"-8,2,3,-1"` → Exception with message: `"Negatives not allowed: -8,-1"`
+  * `"1,-2,3,-4,-5,-6,7,8,-9"` → Exception with message: `"Negatives not allowed: -2,-4,-5,-6,-9"`
 
 ---
 
@@ -175,22 +178,60 @@ The test class `StringCalculatorTest` contains the following test cases to verif
 * **Test**: `numbers_greater_than_1000_should_ignored`
 * **Inputs**:
 
-    * `"1001,2"` → `2`
-    * `"1001,1,2,3"` → `6`
+  * `"1001,2"` → `2`
+  * `"1001,1,2,3"` → `6`
+
+---
+
+### 12. Delimiter Can Be of Any Length
+
+* **Test**: `delimiter_can_be_of_any_length`
+* **Inputs**:
+
+  * `"//[***]\n1***2***3"` → `6`
+  * `"//[//]\n10//20//30//40"` → `100`
+
+---
+
+### 13. Multiple Delimiters Can Be Used
+
+* **Test**: `multiple_delimiters_can_be_used`
+* **Inputs**:
+
+  * `"//[*][%]\n1*2%3"` → `6`
+  * `"//[;][-]\n1;2-3;4"` → `10`
+
+---
+
+### 14. Multiple Long Delimiters Can Be Used
+
+* **Test**: `multiple_long_delimiters_can_be_used`
+* **Input**:
+
+  * `"//[**][%%]\n1**2%%3"` → `6`
 
 ---
 
 ## Screenshots
 
-### TestCases 1-9
+### TestCases Output
 
-![testcases1-9](./assets/tc1to11.png)
+![testcases1-14](./assets/tc1to14.png)
 
 ---
 
 ## Refactoring and Improvements
 
-Each feature was implemented incrementally, and tests were written to ensure functionality. The final implementation supports various delimiters, handles new lines, and validates negative numbers, providing a robust and extensible solution. The implementation also tracks how many times the `add` method is called and ignores numbers greater than 1000.
+Each feature was implemented incrementally, and tests were written to ensure functionality. The final implementation:
+
+* Supports various single and multi-character delimiters.
+* Allows multiple delimiters in square-bracket format.
+* Handles special characters and escape sequences correctly.
+* Ignores values greater than 1000.
+* Throws detailed exceptions for negative inputs.
+* Tracks how many times the `add()` method has been invoked.
+
+The logic is modular and refactored for readability and maintainability.
 
 ---
 
@@ -205,5 +246,5 @@ Each feature was implemented incrementally, and tests were written to ensure fun
 
 ## Author
 
-Vipul Lakum
+**Vipul Lakum**
 Email: [lakumvipul6351@gmail.com](mailto:lakumvipul6351@gmail.com)
