@@ -57,4 +57,15 @@ public class StringCalculatorTest {
         assertThrows(IllegalArgumentException.class,()->stringCalculator.add("3,4,-8"),"Negatives not allowed -8 ");
         assertThrows(IllegalArgumentException.class,()->stringCalculator.add("-8"),"Negatives not allowed -8 ");
     }
+
+    @Test
+    public void more_than_one_negative_numbers_should_return_all_those_numbers_with_exception(){
+        IllegalArgumentException ex1 = assertThrows(IllegalArgumentException.class,
+                () -> stringCalculator.add("-8,2,3,-1"));
+        assertEquals("Negatives not allowed: -8,-1", ex1.getMessage());
+
+        IllegalArgumentException ex2 = assertThrows(IllegalArgumentException.class,
+                () -> stringCalculator.add("1,-2,3,-4,-5,-6,7,8,-9"));
+        assertEquals("Negatives not allowed: -2,-4,-5,-6,-9", ex2.getMessage());
+    }
 }
