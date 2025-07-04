@@ -2,6 +2,7 @@ package org.vipul;
 
 
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 
@@ -48,13 +49,21 @@ public class StringCalculator {
             int del_start_index = input.indexOf("//");
             int del_end_index = input.indexOf("\n");
 
-            DELIMITER = input.substring(del_start_index + 2, del_end_index);
+            String delimiterSection = input.substring(del_start_index + 2, del_end_index);
+
+            // Handle delimiters of any length between []
+            if (delimiterSection.startsWith("[") && delimiterSection.endsWith("]")) {
+                DELIMITER = delimiterSection.substring(1, delimiterSection.length() - 1);
+                // Escape special regex characters
+                DELIMITER = Pattern.quote(DELIMITER);
+            } else {
+                DELIMITER = delimiterSection;
+                if(Arrays.asList(ESC_CHARS).contains(DELIMITER)){
+                    DELIMITER = "\\" + DELIMITER;
+                }
+            }
 
             input = input.substring(del_end_index + 1);
-
-            if(Arrays.asList(ESC_CHARS).contains(DELIMITER)){
-                DELIMITER = "\\" + DELIMITER;
-            }
         }
         numbers = input.split(DELIMITER);
 
