@@ -84,4 +84,10 @@ public class StringCalculatorTest {
         assertEquals(2,stringCalculator.add("1001,2"));
         assertEquals(6,stringCalculator.add("1001,1,2,3"));
     }
+
+    @Test
+    public void delimiter_can_be_of_any_length(){
+        assertEquals(6,stringCalculator.add("//[***]\n1***2***3"));
+        assertEquals(100,stringCalculator.add("//[//]\n10//20//30//40"));
+    }
 }
