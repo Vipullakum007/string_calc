@@ -2,6 +2,7 @@ package org.vipul;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class StringCalculatorTest {
     StringCalculator stringCalculator = new StringCalculator();
@@ -49,5 +50,11 @@ public class StringCalculatorTest {
     public void given_diff_delimiter_should_work_if_its_escape_char(){
         assertEquals(3,stringCalculator.add("//\\\n1\\2"));
         assertEquals(6,stringCalculator.add("//\t\n1\t2\t3"));
+    }
+
+    @Test
+    public void negative_number_should_throw_exception(){
+        assertThrows(IllegalArgumentException.class,()->stringCalculator.add("3,4,-8"),"Negatives not allowed -8 ");
+        assertThrows(IllegalArgumentException.class,()->stringCalculator.add("-8"),"Negatives not allowed -8 ");
     }
 }
