@@ -68,4 +68,15 @@ public class StringCalculatorTest {
                 () -> stringCalculator.add("1,-2,3,-4,-5,-6,7,8,-9"));
         assertEquals("Negatives not allowed: -2,-4,-5,-6,-9", ex2.getMessage());
     }
+
+    @Test
+    public void add_method_should_return_number_of_times_it_is_called() {
+
+        stringCalculator.add("1,2");
+        stringCalculator.add("3,4");
+        stringCalculator.add("5");
+
+        assertEquals(3, stringCalculator.getCalledCount());
+    }
+
 }
